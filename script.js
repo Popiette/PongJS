@@ -37,6 +37,9 @@ var ball = new Rectangle(300, 300, 10, 10, 0, 1);
 var racket1 = new Rectangle(280, 150, 40, 10, 0, 0);
 var racket2 = new Rectangle(280, 450, 40, 10, 0, 0);
 
+var score1 = 0;
+var score2 = 0;
+
 window.onload = function (){
 	console.log("Hello !");
 	window.addEventListener("keydown", setRacketsMove);
@@ -45,7 +48,6 @@ window.onload = function (){
 }
 
 function setRacketsMove(e){
-	console.log("Touche pressée !");
 	if(e.key == "a"){
 		racket1.moveTop = -1;
 	}
@@ -61,7 +63,6 @@ function setRacketsMove(e){
 }
 
 function unsetRacketsMove(e){
-	console.log("Touche relachée !");
 	if(e.key == "a" || e.key == "z"){
 		racket1.moveTop = 0;
 	}
@@ -80,7 +81,6 @@ function moveBall(){
 
 	window.document.getElementById("player1").style.top = racket1.posTop + "px";
 	window.document.getElementById("player2").style.top = racket2.posTop + "px";
-	
 }
 
 function collisions(){
@@ -95,6 +95,18 @@ function collisions(){
 	if(ballPosLeftWidth >= screenSize + screenPosTop
 		|| ball.posLeft <= screenPosTop){
 		ball.moveLeft = - ball.moveLeft;
+	}
+
+	if(ball.posLeft == screenPosLeft){
+		score2 ++;
+		window.document.getElementById("score").innerHTML
+			= score1 + " - " + score2;
+	
+	}
+	if(ballPosLeftWidth == screenPosLeft + screenSize){
+		score1 ++;
+		window.document.getElementById("score").innerHTML
+			= score1 + " - " + score2;
 	}
 
 	if(ball.posLeft == racket1.posLeft + racket1.width
