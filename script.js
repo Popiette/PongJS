@@ -39,14 +39,48 @@ var racket2 = new Rectangle(280, 450, 40, 10, 0, 0);
 
 window.onload = function (){
 	console.log("Hello !");
+	window.addEventListener("keydown", setRacketsMove);
+	window.addEventListener("keyup", unsetRacketsMove);
 	window.setInterval(moveBall, 10);
+}
+
+function setRacketsMove(e){
+	console.log("Touche pressée !");
+	if(e.key == "a"){
+		racket1.moveTop = -1;
+	}
+	else if(e.key == "z"){
+		racket1.moveTop = 1;
+	}
+	else if(e.key == "ArrowLeft"){
+		racket2.moveTop = -1;
+	}
+	else if(e.key == "ArrowRight"){
+		racket2.moveTop = 1;
+	}
+}
+
+function unsetRacketsMove(e){
+	console.log("Touche relachée !");
+	if(e.key == "a" || e.key == "z"){
+		racket1.moveTop = 0;
+	}
+	else if(e.key == "ArrowLeft" || e.key == "ArrowRight"){
+		racket2.moveTop = 0;
+	}
 }
 
 function moveBall(){
 	collisions();
 	ball.move();
+	racket1.move();
+	racket2.move();
 	window.document.getElementById("ball").style.top = ball.posTop + "px";
 	window.document.getElementById("ball").style.left = ball.posLeft + "px";
+
+	window.document.getElementById("player1").style.top = racket1.posTop + "px";
+	window.document.getElementById("player2").style.top = racket2.posTop + "px";
+	
 }
 
 function collisions(){
