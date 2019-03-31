@@ -1,3 +1,10 @@
+class Point{
+	constructor(y, x){
+		this.x = x;
+		this.y = y;
+	}
+}
+
 class Rectangle{
 	
 	constructor(posTop, posLeft, height, width, moveTop, moveLeft){
@@ -12,6 +19,11 @@ class Rectangle{
 	move(){
 		this.posTop += this.moveTop;
 		this.posLeft += this.moveLeft;
+	}
+
+	getCoordinates(x, y){
+		return new Point(this.posTop + y*this.height,
+			this.posLeft + x*this.width);
 	}
 
 }
@@ -38,16 +50,31 @@ function moveBall(){
 }
 
 function collisions(){
-	var ballTop = ball.posTop - screenPosTop;
-	var ballLeft = ball.posLeft - screenPosLeft;
-	
-	if(ballTop + ball.height >= screenSize 
-		|| ballTop <= 0){
+	var ballPosLeftWidth = ball.posLeft + ball.width;
+	var ballPosTopHeight = ball.posTop + ball.height;
+
+	if(ballPosTopHeight >= screenSize + screenPosTop
+		|| ball.posTop <= screenPosTop){
 		ball.moveTop = - ball.moveTop;
 	}
 	
-	if(ballLeft + ball.width >= screenSize
-		|| ballLeft <= 0){
+	if(ballPosLeftWidth >= screenSize + screenPosTop
+		|| ball.posLeft <= screenPosTop){
 		ball.moveLeft = - ball.moveLeft;
+	}
+
+	if(ball.posLeft == racket1.posLeft + racket1.width
+		&& ball.posTop >= racket1.posTop - (ball.height - 1)
+		&& ball.posTop <= racket1.posTop + racket1.height)
+	{
+		ball.moveLeft = 1;
+		ball.moveTop = racket1.moveTop;
+	}
+	else if(ballPosLeftWidth == racket2.posLeft
+		&& ball.posTop >= racket2.posTop - (ball.height -1)
+		&& ball.posTop <= racket2.posTop + racket2.height)
+	{
+		ball.moveLeft = -1;
+		ball.moveTop = racket2.moveTop;
 	}
 }
