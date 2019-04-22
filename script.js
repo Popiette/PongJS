@@ -40,6 +40,10 @@ var racket2 = new Rectangle(280, 450, 40, 10, 0, 0);
 var score1 = 0;
 var score2 = 0;
 
+var pause = true;
+
+initPositions();
+
 window.onload = function (){
 	console.log("Hello !");
 	window.addEventListener("keydown", setRacketsMove);
@@ -60,6 +64,9 @@ function setRacketsMove(e){
 	else if(e.key == "ArrowRight"){
 		racket2.moveTop = 1;
 	}
+	else if(e.key == "Enter"){
+		pause = !pause;
+	}
 }
 
 function unsetRacketsMove(e){
@@ -72,15 +79,17 @@ function unsetRacketsMove(e){
 }
 
 function moveBall(){
-	collisions();
-	ball.move();
-	racket1.move();
-	racket2.move();
-	window.document.getElementById("ball").style.top = ball.posTop + "px";
-	window.document.getElementById("ball").style.left = ball.posLeft + "px";
+	if(!pause){
+		collisions();
+		ball.move();
+		racket1.move();
+		racket2.move();
+		window.document.getElementById("ball").style.top = ball.posTop + "px";
+		window.document.getElementById("ball").style.left = ball.posLeft + "px";
 
-	window.document.getElementById("player1").style.top = racket1.posTop + "px";
-	window.document.getElementById("player2").style.top = racket2.posTop + "px";
+		window.document.getElementById("player1").style.top = racket1.posTop + "px";
+		window.document.getElementById("player2").style.top = racket2.posTop + "px";
+	}
 }
 
 function collisions(){
@@ -101,12 +110,13 @@ function collisions(){
 		score2 ++;
 		window.document.getElementById("score").innerHTML
 			= score1 + " - " + score2;
-	
+		initPositions();
 	}
 	if(ballPosLeftWidth == screenPosLeft + screenSize){
 		score1 ++;
 		window.document.getElementById("score").innerHTML
 			= score1 + " - " + score2;
+		initPositions();
 	}
 
 	if(ball.posLeft == racket1.posLeft + racket1.width
@@ -123,4 +133,17 @@ function collisions(){
 		ball.moveLeft = -1;
 		ball.moveTop = racket2.moveTop;
 	}
+}
+
+function initPositions(){
+	ball.posTop = 300;
+	ball.posLeft = 300;
+
+	racket1.posTop = 280;
+	racket1.posLeft = 150;
+
+	racket2.posTop = 280;
+	racket2.posLeft = 450;
+
+	pause = true;
 }
