@@ -41,6 +41,7 @@ var score1 = 0;
 var score2 = 0;
 
 var pause = true;
+var finished = false;
 
 initPositions();
 
@@ -79,7 +80,7 @@ function unsetRacketsMove(e){
 }
 
 function moveBall(){
-	if(!pause){
+	if(!pause && !finished){
 		collisions();
 		ball.move();
 		racket1.move();
@@ -108,14 +109,12 @@ function collisions(){
 
 	if(ball.posLeft == screenPosLeft){
 		score2 ++;
-		window.document.getElementById("score").innerHTML
-			= score1 + " - " + score2;
+		updateScores();
 		initPositions();
 	}
 	if(ballPosLeftWidth == screenPosLeft + screenSize){
 		score1 ++;
-		window.document.getElementById("score").innerHTML
-			= score1 + " - " + score2;
+		updateScores();
 		initPositions();
 	}
 
@@ -146,4 +145,29 @@ function initPositions(){
 	racket2.posLeft = 450;
 
 	pause = true;
+}
+
+function updateScores(){
+	window.document.getElementById("score").innerHTML
+			= score1 + " - " + score2;
+	if(score1 >= 5){
+		printVictory(1);
+	}else if(score2 >= 5){
+		printVictory(2);	
+	}
+
+}
+
+function printVictory(winner){
+	finished = true;
+	var message = "";
+	if(winner == 1){
+		message = "<p>Le joueur 1 a gagné !</p>";
+	}else{
+		message = "<p>Le joueur 2 a gagné !</p>";
+	}
+
+	var screen = window.document.getElementById("screen");
+	screen.style.backgroundColor = "white";
+	screen.innerHTML = message;
 }
