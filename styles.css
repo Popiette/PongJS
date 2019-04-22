@@ -4,6 +4,12 @@ div.racket{
 	width : 10px;
 }
 
+#score{
+	position : fixed;
+	left : 280px;
+	top : 50px;
+}
+
 #screen{
 	background-color : black;
 	
