@@ -137,12 +137,16 @@ function collisions(){
 function initPositions(){
 	ball.posTop = 300;
 	ball.posLeft = 300;
+	ball.moveTop = 0;
+	ball.moveLeft = 1;
 
 	racket1.posTop = 280;
 	racket1.posLeft = 150;
+	racket1.moveTop = 0;
 
 	racket2.posTop = 280;
 	racket2.posLeft = 450;
+	racket2.moveTop = 0;
 
 	pause = true;
 }
